@@ -1,14 +1,15 @@
 ﻿$lineCounter = 0
 $totalLines = 0
-$gameLog = get-content "C:\Users\andrew.zbikowski\Downloads\Game.log"
+$gameLog = get-content "C:\Program Files\Roberts Space Industries\StarCitizen\LIVE\Game.log"
 $totalLines = $gameLog.Length
 
 function Update-Log()
 {
 
-$global:gameLog = get-content "C:\Users\andrew.zbikowski\Downloads\Game.log"
-$global:totalLines = $gameLog.Length
-write-host("Update-Log was called and completed")
+$script:gameLog = get-content "C:\Program Files\Roberts Space Industries\StarCitizen\LIVE\Game.log"
+$script:totalLines = $gameLog.Length
+#write-host("Update-Log was called and completed")
+#write-host("Update-Log: Total Lines = $totalLines")
 }
 
 function Process-Line()
@@ -28,10 +29,12 @@ function Process-Line()
                 $killer = $CharArray[12]
                 if($killed.Contains($killedId) -eq $false){
                    Write-Host("[$linecounter]$killer has slain $killed in $zone at $timestamp")
+		   $global:gameLog = $null
+		   #write-host("Process-Line: TotalLines = $totalLines")
                  }
             }
         }
-write-host("Process-Line was called and completed")
+#write-host("Process-Line was called and completed")
 }
 
 function Line-Check{
@@ -43,7 +46,7 @@ function Line-Check{
     else{
         Write-Host("No")
         }
-write-host("Line-Check was called and completed")
+#write-host("Line-Check was called and completed")
 }
 while($True){
     
