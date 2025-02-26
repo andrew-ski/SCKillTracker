@@ -44,7 +44,7 @@ function Process-Line()
     foreach($line in $gameLog){
             $lineCounter += 1
             $charArray = $line.Split(" ")
-            if($charArray.Length -gt 12 -and $CharArray[3] -eq "Death>"){
+            if($charArray.Length -gt 21 -and $CharArray[3] -eq "Death>"){
                 $timeStamp = $CharArray[0]
                 $timeStamp = $timeStamp.Substring(1, $timeStamp.Length - 2)
                 $timeStamp = Get-Date $timeStamp -Format hh:mm:ss
