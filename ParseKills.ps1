@@ -1,12 +1,16 @@
 ﻿$lineCounter = 0
 $totalLines = 0
-$gameLog = get-content "C:\Program Files\Roberts Space Industries\StarCitizen\LIVE\Game.log"
+$filepath = "C:\Program Files\Roberts Space Industries\StarCitizen\LIVE\Game.log"
+$gameLog = get-content $filepath
 $totalLines = $gameLog.Length
+$script:killArray = @()
+$script:lineNumArray = @()
+$script:newLines = $false
 
 function Update-Log()
 {
 
-$script:gameLog = get-content "C:\Program Files\Roberts Space Industries\StarCitizen\LIVE\Game.log"
+$script:gameLog = get-content $filepath
 $script:totalLines = $gameLog.Length
 #write-host("Update-Log was called and completed")
 #write-host("Update-Log: Total Lines = $totalLines")
@@ -21,17 +25,23 @@ function Process-Line()
                 $timeStamp = $CharArray[0]
                 $timeStamp = $timeStamp.Substring(1, $timeStamp.Length - 2)
                 $timeStamp = Get-Date $timeStamp -Format hh:mm:ss
-                $timeStamp = $timeStamp
                 $killed = $CharArray[5]
                 $killedId = $CharArray[6]
                 $killedId = $killedId.Substring(1, $killedId.Length - 2)
                 $zone = $CharArray[9]
                 $killer = $CharArray[12]
-                if($killed.Contains($killedId) -eq $false){
-                   Write-Host("[$linecounter]$killer has slain $killed in $zone at $timestamp")
-		   $global:gameLog = $null
-		   #write-host("Process-Line: TotalLines = $totalLines")
+                if($killed.Contains($killedId) -eq $false -and $lineNumArray.Contains($lineCounter) -eq $false){
+
+                   $killLine = "$timestamp | $killer killed $killed | Zone:$zone"
+                   #$killLine = "[$linecounter]$killer has slain $killed in $zone at $timestamp"
+                   $script:lineNumArray += $lineCounter
+
+                   $script:killArray += $killLine
+                   $script:newLines = $true
+                 
+
                  }
+
             }
         }
 #write-host("Process-Line was called and completed")
@@ -40,7 +50,7 @@ function Process-Line()
 function Line-Check{
     
     if($lineCounter -lt $totalLines){
-
+            
             Process-Line
             }
     else{
@@ -52,5 +62,13 @@ while($True){
     
     Update-Log
     Line-Check
-    sleep(5)
+    if($newLines -eq $True){
+        clear
+        $killArray
+        $script:newLines = $false
+    }
+    #foreach($kline in $killArray){
+    #    write-host($kline)
+    #}
+    sleep(1)
 }
