@@ -58,10 +58,12 @@ function Process-Line()
                    $spaces = 40 - $spacingCheck.Length
                    $spacing = " "*$spaces
                    $killLine = "$timestamp | $killer killed $killed $spacing | Weapon:$weapon | Damage: $damageType | Zone:$zone"
-                   $script:toastText = "$killer killed $killed"
+                   $script:toastText1 = "Weapon: $weapon | Damage: $damageType"
+                   $script:toastText2 = "$killer killed $killed"
                    Toast-up
                    $script:lineNumArray += $lineCounter
                    $script:killArray += $killLine
+ 
                    $script:newLines = $true
           
                  }
@@ -91,9 +93,9 @@ function Toast-up{
 
     $ToastText01 = [Windows.UI.Notifications.ToastTemplateType, Windows.UI.Notifications, ContentType = WindowsRuntime]::ToastText01
     $TemplateContent = [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime]::GetTemplateContent($ToastText01)
-    $TemplateContent.SelectSingleNode('//text[@id="1"]').InnerText = $toastText
-    $AppId = '{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\WindowsPowerShell\v1.0\powershell.exe'
-    [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($AppId).Show($TemplateContent)
+    $TemplateContent.SelectSingleNode('//text[@id="1"]').InnerText = $toastText2
+    #$AppId = '{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\WindowsPowerShell\v1.0\powershell.exe'
+    [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($toastText1).Show($TemplateContent)
 }
 
 while($runScript){
