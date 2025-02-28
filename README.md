@@ -5,7 +5,7 @@ SC-KillTracker is a simple, Open-Source, powershell script wrapped as an exe. It
 
 ![image](https://github.com/user-attachments/assets/0b73ce51-a944-40ed-8044-a3d23aed4006)
 
-Currently working to implement in-game overlay. This can be achieved with the v0.10 build that utilizes Windows 'Toast' notifications. Windows settings will need to be adjusted to allow this and there could be unintended notifications that are allowed as a result. I'll be working to figure out how to allow the powershell specific notifications to avoid that.
+Currently working to implement in-game overlay. This can be achieved with the v0.11 build that utilizes Windows 'Toast' notifications. Windows settings will need to be adjusted to allow this and there could be unintended notifications that are allowed as a result. I'll be working to figure out how to allow the powershell specific notifications to avoid that.
 
 ![image](https://github.com/user-attachments/assets/35fed758-beaa-4031-9a55-6e23185b7d8b)
 
