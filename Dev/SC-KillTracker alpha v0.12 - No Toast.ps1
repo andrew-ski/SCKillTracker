@@ -63,6 +63,8 @@ function Process-Line()
                         }
                    $spacing = " "*$spaces
                    $killLine = "$timestamp | $killer killed $killed $spacing | Weapon:$weapon | Damage: $damageType | Zone:$zone"
+<#
+
                    $script:toastText1 = "$weapon | $damageType | $zone"
                    $script:toastText2 = "$killer killed $killed"
 
@@ -72,9 +74,8 @@ function Process-Line()
                    $acceptableAge = (Get-Date).AddMinutes(-5)
                    if($ageStamp -gt $acceptableAge){
                      Toast-up
-                     $killLine
                    }
-
+#>
                    $script:lineNumArray += $lineCounter
                    $script:killArray += $killLine
  

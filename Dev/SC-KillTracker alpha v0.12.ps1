@@ -65,18 +65,15 @@ function Process-Line()
                    $killLine = "$timestamp | $killer killed $killed $spacing | Weapon:$weapon | Damage: $damageType | Zone:$zone"
                    $script:toastText1 = "$weapon | $damageType | $zone"
                    $script:toastText2 = "$killer killed $killed"
-                   
-                   
+
                    #if timestamp is older than 5 minutes, do not toast
-                   $interactionTime = $CharArray[0].Substring(1, $CharArray[0].Length - 2)
-                   $interactionTime = Get-Date $timeStamp
-                   $global:timeDifference = (Get-Date).Subtract($interactionTime)
-                   if($timeDifference.Days -le 0 -and $timeDifference.Hour -le 0 -and $timeDifference.Minute -le 5){
-                     Write-Host("Days:$timeDifference.Days Hours:$$timeDifference.Hour $timeDifference.Minute") 
-                   # Toast-up
-                     
+                   $ageStamp = $CharArray[0].Substring(1, $CharArray[0].Length - 2)
+                   $ageStamp = Get-Date $ageStamp
+                   $acceptableAge = (Get-Date).AddMinutes(-5)
+                   if($ageStamp -gt $acceptableAge){
+                     Toast-up
                    }
-                   
+
                    $script:lineNumArray += $lineCounter
                    $script:killArray += $killLine
  
@@ -94,8 +91,8 @@ function Line-Check{
     if($lineCounter -lt $totalLines){
             Process-Line
         if($newLines -eq $True){
-            #clear
-            #$killArray
+            clear
+            $killArray
             $script:newLines = $false
         }
             }
@@ -110,7 +107,6 @@ function Toast-up{
     $ToastText01 = [Windows.UI.Notifications.ToastTemplateType, Windows.UI.Notifications, ContentType = WindowsRuntime]::ToastText01
     $TemplateContent = [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime]::GetTemplateContent($ToastText01)
     $TemplateContent.SelectSingleNode('//text[@id="1"]').InnerText = $toastText2
-    #[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("Test").Show($TemplateContent)
     [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($toastText1).Show($TemplateContent)
 }
 
